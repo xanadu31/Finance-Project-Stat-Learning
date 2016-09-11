@@ -1,0 +1,222 @@
+\documentclass{report}
+
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel}
+\usepackage{url} % Pour écrire des adresses cliquables.
+\usepackage{lmodern} % Pour changer le pack de police.
+\usepackage[top=5cm, bottom=5cm, left=6cm, right=3cm]{geometry} % Les marges.
+\usepackage{graphicx} %Graphique
+
+\title{Contrôle des connaissances "Machine learning"}
+\author{PIRES - KESADRI- ASLIMI}
+\date{\today} % Pour mettre la date du jour, tapez \today.
+
+\begin{document} 
+ \maketitle % Page de garde.
+ 
+    \chapter{Description des données.}
+    
+\section{Introduction}
+
+Tout d'abord, nous avons utiliser pour ce projet, deux logiciels qui sont R et Rstudio. En effet, les graphiques issues de l'ACP sont difficilement interprétable avec RStudio, tandis que les graphiques d'évolution des cours le sont. Il a donc fallut alterner entre ces deux interfaces.
+Concernant les packages, nous avons utiliser ici deux packages à savoir FactoMineR et Tseries. FactoMineR permet de réaliser l'analyse des composantes principale et Tseries permet de travailler sur la matrice contenant tout les cours.
+
+
+\section{Description des données }
+
+Sur les 100 entreprises composant le FTSE (Financial Times Stock Exchange), nous avons choisis de prendre 10 capitalisations parmis les 15 plus importante  de cette place financière. Il s'agit ici, de HSBC, Vodafone, British Américan Tobacco, Diageo, Imperial Tobacco, British Petroleum, GSK, AstraZeneca, BS Group et Tesco. On remarque que ces cours concernent des domaines divers et variés comme l'industrie pétrolière, bancaire, agro-alimentaire, pharmaceutique ou encore celle du tabac. L'objectif étant de mesurer l'impact des ces valeurs décisives sur le reste du marché.
+
+
+Au départ, nous voulions prendre les dix plus grosses capitalisations du FTSE. Cependant, nous avons rencontré des problèmes sur Yahoo Finance quant à l'interprétation des données. En effet, il arrive que certains titres ne soient pas coter en bourse certains jours (Krash, Fusion acquisition etc...), d?où un nombre inégale de valeurs télécharger. Il a donc fallut trouver une solution, nous avons alors pris dix des quinze plus grosses capitalisations du FTSE et nous avons également changer la période d?étude des cours. Nous avons pris des cours cotant de 2005 à 2009 pour étudier l'impact de la crise sur ces valeurs. Notre but d'étudier l?intérêt de l'ACP pour ce domaine d'étude.
+   
+    \chapter{Description de la méthode}
+        
+    \section{Les données}
+    
+\paragraph{1er Etape}
+
+On importe les cours d'ouvertures (SERIESO) et de fermetures (SERIESC), puis on fait une moyenne de ces cours (SERIESmean). En effet, on ne se contente pas de d'utiliser les cours d'ouverture ou de fermeture car en début de séance le marché est extrêmement volatile alors qu'en fin de séance, tous les acteurs cherchent à se couvrir (Hedger). C'est pourquoi il nous a sembler judicieux de prendre une moyenne de ces deux cours pour qu'elle reflète au mieux la réalité du marché.
+
+
+\paragraph{2nd Etape - Summary}
+
+On utilise la fonction Summary, celle-ci nous donne un détail des cours et permet une analyse statistique de base sur chacun des cours. On trace alors, l'ensemble des cours sur un même graphique.\begin{figure}
+	\centering
+		\includegraphics[width=0.6\textwidth]{10cours.eps}
+	\caption{10cours}
+	\label{fig:10cours}
+\end{figure}
+
+\paragraph{3ème Etape - Calcul des log rendement}
+
+ On calcul les rendements sur les cours moyens à l'aide de la fonction diff(log(SERIESmean). Puis on utilise à nouveau la fonction Summary et on trace les fonctions associées aux Logrendements.
+ 
+ \begin{figure}
+	\centering
+		\includegraphics[width=0.6\textwidth]{10rendement.eps}
+	\caption{10rendement}
+	\label{fig:10rendement}
+\end{figure}
+
+
+    \section{Analyse des Composantes Principales (ACP)}
+		
+		
+		\paragraph{Méthode}
+		On utilise la fonction PCA(rSERIES) pour réaliser une ACP. On obtient alors deux graphiques. Le premier graphique Variable Factor Map (ci-dessous) qui permet de voir comment les individus (cours) sont repartit par rapport au deux premières dimensions. 
+		
+		
+		\begin{figure}
+			\centering
+				\includegraphics[width=0.6\textwidth]{camem.eps}
+			\caption{camem}
+			\label{fig:camem}
+		\end{figure}
+		
+		Quant au deuxième (ci-dessous), il sert a voir comment les variables (les entreprises) sont repartit par rapport aux deux premières dimensions.
+		
+		\begin{figure}
+					\centering
+						\includegraphics[width=0.6\textwidth]{nuagePTS.eps}
+					\caption{nuagePTS}
+					\label{fig:nuagePTS}
+				\end{figure}
+		
+		
+		
+		\section{III-Reconstitution des données)}
+\paragraph{Méthode}
+
+
+On reconstitue alors, les cours de bourse à partir de la première composante principal. K correspond, ici, à la contribution de chaque cours à la composante principales.
+
+\begin{figure}
+	\centering
+		\includegraphics[width=10cm,height=8cm]{coursRdtRecon.eps}
+	\caption{coursRdtRecon}
+	\label{fig:coursRdtRecon}
+\end{figure}
+
+
+
+Graph plus summary
+
+
+On se sert alors des rendements obtenues pour tracer les rendements reconstitués.
+
+\begin{figure}
+	\centering
+		\includegraphics[width=10cm,height=8cm]{coursRdtRecon.eps}
+	\caption{coursRdtRecon}
+	\label{fig:coursRdtRecon}
+\end{figure}
+
+\section{Commentaire sur le code}
+     Vous trouverez, en pièce jointe, le code R associé à ce rapport.
+		
+	
+			
+	
+	
+     \chapter{La description des résultats}
+		
+		
+		\section{Interprétation des données}
+		
+		
+		Graph cour plus rendement    Summary
+		
+		\begin{figure}
+			\centering
+				\includegraphics[width=10cm,height=8cm]{10rendement.eps}
+			\caption{10rendement}
+			\label{fig:10rendement}
+		\end{figure}
+		
+		
+		Interprétation:
+		
+		On remarque que le summary effectué confirme les graphiques obtenues.
+		
+		
+		
+		
+		
+		
+		\section{Interprétation ACP}
+		
+		
+		
+		Nuage de pt ::
+		
+		Interprétation: Tout les indinivdu sont centtré autour d'une 
+		
+		
+		Camembert:
+		
+		
+		\begin{figure}
+			\centering
+				\includegraphics[width=0.75\textwidth]{camem.eps}
+			\caption{camem}
+			\label{fig:camem}
+		\end{figure}
+		
+		
+		En dim1:Tout les cours sont corrélée, ici entre 0,5 et 1
+		
+		En dim 2: On distingue ici que 3 groupes se demarque tres nettement.
+		blabla tab etc...
+		
+		
+		En dim 2, on explique 55 pourcent des données
+		
+		> summary(D.PCA)
+
+Call:
+PCA(rSERIES) 
+
+
+Eigenvalues
+                       Dim.1   Dim.2   Dim.3   Dim.4   Dim.5   Dim.6   Dim.7   Dim.8
+Variance               4.545   1.074   0.845   0.762   0.715   0.590   0.490   0.416
+% of var.             45.446  10.736   8.453   7.624   7.148   5.900   4.903   4.157
+Cumulative % of var.  45.446  56.181
+
+
+		
+		D.PCA$var$coord summary 2 lignes : confirme notre interprétation plus valeur précise
+		
+		ie tabac 2 vrai valeur
+		
+		
+		
+		
+		
+		\section{Reconstitution de l'indice domestique}
+
+
+
+
+
+
+Graph final plus blabla
+
+
+
+
+\chapter{Conclusion}
+
+L'analyse des composantes principales s'est révélé très efficace. En effet, avec 47 \% des données, nous avons pu expliquer l'indice domestique. En effet, avec seulement 10 cours, correspondant à 10 des 15 plus grosses capitalisations du FTSE, nous avons dégager la même tendance générale que celle des 100 cours de cette indice. Nous avons ainsi, mis en évidence l?intérêt de l'ACP pour l?étude des cours financiers.
+    
+    
+    
+
+
+\chapter{Sources}
+
+   
+    
+    
+\end{document}
